@@ -129,7 +129,7 @@ export default function ContactForm() {
                             value={contact.firstName}
                             onChange={handleChange}
                             className={inputClass}
-                            placeholder="John"
+                            placeholder="Mezuu"
                         />
                     </div>
 
@@ -143,7 +143,7 @@ export default function ContactForm() {
                             value={contact.lastName}
                             onChange={handleChange}
                             className={inputClass}
-                            placeholder="Doe"
+                            placeholder="Dev"
                         />
                     </div>
 
@@ -198,12 +198,12 @@ export default function ContactForm() {
                             value={contact.email}
                             onChange={handleChange}
                             className={inputClass}
-                            placeholder="john@example.com"
+                            placeholder="mezuu@example.com"
                         />
                     </div>
 
                     {/* Phone */}
-                    <div className="md:col-span-2">
+                    <div>
                         <label htmlFor="phone" className={labelClass}>Phone</label>
                         <input
                             type="tel"
@@ -213,6 +213,20 @@ export default function ContactForm() {
                             onChange={handleChange}
                             className={inputClass}
                             placeholder="+62 812 3456 7890"
+                        />
+                    </div>
+
+                    {/* LinkedIn */}
+                    <div>
+                        <label htmlFor="linkedin" className={labelClass}>LinkedIn</label>
+                        <input
+                            type="url"
+                            id="linkedin"
+                            name="linkedin"
+                            value={contact.linkedin || ''}
+                            onChange={handleChange}
+                            className={inputClass}
+                            placeholder="https://linkedin.com/in/username"
                         />
                     </div>
                 </div>

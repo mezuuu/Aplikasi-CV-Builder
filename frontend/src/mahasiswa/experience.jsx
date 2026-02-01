@@ -119,7 +119,7 @@ export default function ExperienceForm() {
                                 onChange={(e) => handleChange(exp.id, 'endDate', e.target.value)}
                                 disabled={exp.current}
                                 className={`${inputClass} ${exp.current ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                placeholder="Present"
+                                placeholder="Jan 2025"
                             />
                         </div>
 

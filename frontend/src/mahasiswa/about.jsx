@@ -27,44 +27,6 @@ export default function AboutForm() {
                 </p>
             </div>
 
-            {/* Form Fields - Glass Card */}
-            <div className="glass rounded-2xl p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
-                    {/* Instagram */}
-                    <div>
-                        <label htmlFor="instagram" className={labelClass}>
-                            Instagram <span className="text-white/40">(username)</span>
-                        </label>
-                        <div className="relative">
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-purple-400">@</span>
-                            <input
-                                type="text"
-                                id="instagram"
-                                value={about.instagram || ''}
-                                onChange={(e) => handleChange('instagram', e.target.value.replace('@', ''))}
-                                className={`${inputClass} pl-10`}
-                                placeholder="username"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Github */}
-                    <div>
-                        <label htmlFor="github" className={labelClass}>
-                            GitHub <span className="text-white/40">(profile link)</span>
-                        </label>
-                        <input
-                            type="url"
-                            id="github"
-                            value={about.github || ''}
-                            onChange={(e) => handleChange('github', e.target.value)}
-                            className={inputClass}
-                            placeholder="https://github.com/username"
-                        />
-                    </div>
-                </div>
-            </div>
-
             {/* Summary Textarea - Glass Card */}
             <div className="glass rounded-2xl p-6">
                 <label htmlFor="summary" className={labelClass}>Professional Summary</label>

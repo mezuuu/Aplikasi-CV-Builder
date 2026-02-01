@@ -5,7 +5,7 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
     const { state } = useCV();
     const { contact, experience, education, skills, about, settings } = state;
 
-    const fullName = `${contact.firstName} ${contact.lastName}`.trim() || 'YOUR NAME';
+    const fullName = `${contact.firstName} ${contact.lastName}`.trim() || 'MEZUU DEV';
 
     // Format date of birth
     const formatDate = (dateString) => {
@@ -259,30 +259,62 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
                         />
                     </div>
 
-                    {/* Contact Info - Modern Pills */}
+                    {/* Contact Info - Modern Pills with SVG Icons */}
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: forPrint ? '2mm' : '5px', marginBottom: forPrint ? '10mm' : '16px' }}>
-                        {[
-                            { icon: '📍', value: contact.city || 'Yogyakarta' },
-                            { icon: '📱', value: contact.phone || '+62 812 3456 789' },
-                            { icon: '✉️', value: contact.email || 'email@example.com' },
-                        ].map((item, i) => (
-                            <div
-                                key={i}
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: forPrint ? '1.5mm' : '3px',
-                                    backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                                    padding: forPrint ? '1.5mm 3mm' : '4px 8px',
-                                    borderRadius: '20px',
-                                    fontSize: forPrint ? '8pt' : '7px',
-                                    color: colors.text,
-                                }}
-                            >
-                                <span>{item.icon}</span>
-                                <span>{item.value}</span>
-                            </div>
-                        ))}
+                        {/* Location */}
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: forPrint ? '1.5mm' : '4px',
+                                backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                                padding: forPrint ? '1.5mm 3mm' : '4px 8px',
+                                borderRadius: '20px',
+                                fontSize: forPrint ? '8pt' : '7px',
+                                color: colors.text,
+                            }}
+                        >
+                            <svg style={{ width: forPrint ? '3mm' : '10px', height: forPrint ? '3mm' : '10px' }} fill={colors.primary} viewBox="0 0 24 24">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                            </svg>
+                            <span>{contact.city || 'Yogyakarta'}</span>
+                        </div>
+                        {/* Phone */}
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: forPrint ? '1.5mm' : '4px',
+                                backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                                padding: forPrint ? '1.5mm 3mm' : '4px 8px',
+                                borderRadius: '20px',
+                                fontSize: forPrint ? '8pt' : '7px',
+                                color: colors.text,
+                            }}
+                        >
+                            <svg style={{ width: forPrint ? '3mm' : '10px', height: forPrint ? '3mm' : '10px' }} fill={colors.primary} viewBox="0 0 24 24">
+                                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                            </svg>
+                            <span>{contact.phone || '+62 812 3456 789'}</span>
+                        </div>
+                        {/* Email */}
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: forPrint ? '1.5mm' : '4px',
+                                backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                                padding: forPrint ? '1.5mm 3mm' : '4px 8px',
+                                borderRadius: '20px',
+                                fontSize: forPrint ? '8pt' : '7px',
+                                color: colors.text,
+                            }}
+                        >
+                            <svg style={{ width: forPrint ? '3mm' : '10px', height: forPrint ? '3mm' : '10px' }} fill={colors.primary} viewBox="0 0 24 24">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                            </svg>
+                            <span>{contact.email || 'email@example.com'}</span>
+                        </div>
                     </div>
 
                     {/* Work Experience */}
@@ -322,7 +354,7 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
                                     />
                                     <div style={{ fontSize: forPrint ? '9pt' : '9px', fontWeight: '600', color: colors.dark }}>{exp.jobTitle || 'Job Title'}</div>
                                     <div style={{ fontSize: forPrint ? '8pt' : '7px', color: colors.primary, fontWeight: '500' }}>{exp.employer || 'Company'}</div>
-                                    <div style={{ fontSize: forPrint ? '7pt' : '6px', color: colors.textLight }}>{exp.startDate || '2024'} - {exp.current ? 'Present' : (exp.endDate || '2024')}</div>
+                                    <div style={{ fontSize: forPrint ? '7pt' : '6px', color: colors.textLight }}>{exp.startDate || '2024'} - {exp.current ? 'Present' : (exp.endDate || '2025')}</div>
                                     {exp.description && (
                                         <div style={{ fontSize: forPrint ? '7pt' : '6px', color: colors.text, marginTop: '2px' }}>{exp.description.slice(0, 80)}...</div>
                                     )}
