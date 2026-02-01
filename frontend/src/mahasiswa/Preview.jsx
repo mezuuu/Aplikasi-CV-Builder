@@ -38,16 +38,18 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
 
     return (
         <div className={forPrint ? '' : 'sticky top-8 w-full h-fit flex justify-center'}>
-            {/* CV Paper - A4 Size - Modern Design */}
+            {/* CV Paper - Modern Design - Same size for both, print uses scale */}
             <div
                 ref={ref}
                 className="overflow-hidden flex"
                 style={{
-                    width: forPrint ? '100%' : '380px',
-                    height: forPrint ? '100%' : '580px',
+                    width: '420px',
+                    height: '594px',
                     fontFamily: "'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
                     boxShadow: forPrint ? 'none' : '0 25px 50px rgba(139, 92, 246, 0.15)',
                     borderRadius: forPrint ? '0' : '16px',
+                    transform: forPrint ? 'scale(1.89)' : 'none',
+                    transformOrigin: forPrint ? 'top left' : 'center',
                 }}
             >
                 {/* Left Sidebar - Modern Gradient */}
@@ -56,16 +58,16 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
                         width: '35%',
                         height: '100%',
                         background: `linear-gradient(180deg, ${colors.dark} 0%, ${colors.sidebar} 100%)`,
-                        padding: forPrint ? '20mm 12mm' : '28px 16px',
+                        padding: '28px 16px',
                         color: 'white',
                     }}
                 >
                     {/* Profile Photo with gradient border */}
-                    <div className="flex justify-center" style={{ marginBottom: forPrint ? '16mm' : '22px' }}>
+                    <div className="flex justify-center" style={{ marginBottom: '22px' }}>
                         <div
                             style={{
-                                width: forPrint ? '32mm' : '80px',
-                                height: forPrint ? '32mm' : '80px',
+                                width: '80px',
+                                height: '80px',
                                 borderRadius: '50%',
                                 background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
                                 padding: '3px',
@@ -95,13 +97,13 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
                     </div>
 
                     {/* About Me Section */}
-                    <div style={{ marginBottom: forPrint ? '14mm' : '20px' }}>
+                    <div style={{ marginBottom: '20px' }}>
                         <div
                             style={{
-                                fontSize: forPrint ? '10pt' : '10px',
+                                fontSize: '10px',
                                 fontWeight: '700',
                                 letterSpacing: '2px',
-                                marginBottom: forPrint ? '4mm' : '8px',
+                                marginBottom: '8px',
                                 color: colors.accent,
                             }}
                         >
@@ -109,16 +111,16 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
                         </div>
                         <div
                             style={{
-                                width: forPrint ? '8mm' : '20px',
+                                width: '20px',
                                 height: '2px',
                                 background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
-                                marginBottom: forPrint ? '4mm' : '8px',
+                                marginBottom: '8px',
                                 borderRadius: '2px',
                             }}
                         />
                         <p
                             style={{
-                                fontSize: forPrint ? '9pt' : '8px',
+                                fontSize: '8px',
                                 lineHeight: '1.6',
                                 color: 'rgba(255,255,255,0.8)',
                             }}
@@ -128,13 +130,13 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
                     </div>
 
                     {/* Personal Details */}
-                    <div style={{ marginBottom: forPrint ? '14mm' : '20px' }}>
+                    <div style={{ marginBottom: '20px' }}>
                         <div
                             style={{
-                                fontSize: forPrint ? '10pt' : '10px',
+                                fontSize: '10px',
                                 fontWeight: '700',
                                 letterSpacing: '2px',
-                                marginBottom: forPrint ? '4mm' : '8px',
+                                marginBottom: '8px',
                                 color: colors.accent,
                             }}
                         >
@@ -142,21 +144,22 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
                         </div>
                         <div
                             style={{
-                                width: forPrint ? '8mm' : '20px',
+                                width: '20px',
                                 height: '2px',
                                 background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
-                                marginBottom: forPrint ? '4mm' : '8px',
+                                marginBottom: '8px',
                                 borderRadius: '2px',
                             }}
                         />
-                        <div style={{ fontSize: forPrint ? '8pt' : '7px' }}>
+                        <div style={{ fontSize: '7px' }}>
                             {[
                                 { label: 'Birthday', value: formatDate(contact.dateOfBirth) },
                                 { label: 'Nationality', value: contact.nationality || 'Indonesian' },
+                                { label: 'Visa', value: contact.visaStatus || 'N/A' },
                                 { label: 'Status', value: contact.maritalStatus || 'Single' },
-                            ].map((item, i) => (
-                                <div key={i} style={{ marginBottom: forPrint ? '3mm' : '6px' }}>
-                                    <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: forPrint ? '7pt' : '6px' }}>{item.label}</div>
+                            ].filter(item => item.value && item.value !== 'N/A').map((item, i) => (
+                                <div key={i} style={{ marginBottom: '6px' }}>
+                                    <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '6px' }}>{item.label}</div>
                                     <div style={{ color: colors.accent, fontWeight: '500' }}>{item.value}</div>
                                 </div>
                             ))}
@@ -167,10 +170,10 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
                     <div>
                         <div
                             style={{
-                                fontSize: forPrint ? '10pt' : '10px',
+                                fontSize: '10px',
                                 fontWeight: '700',
                                 letterSpacing: '2px',
-                                marginBottom: forPrint ? '4mm' : '8px',
+                                marginBottom: '8px',
                                 color: colors.accent,
                             }}
                         >
@@ -178,24 +181,24 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
                         </div>
                         <div
                             style={{
-                                width: forPrint ? '8mm' : '20px',
+                                width: '20px',
                                 height: '2px',
                                 background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
-                                marginBottom: forPrint ? '4mm' : '8px',
+                                marginBottom: '8px',
                                 borderRadius: '2px',
                             }}
                         />
                         {settings.viewSkillsAsTags ? (
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: forPrint ? '2mm' : '4px' }}>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
                                 {skills.map((skill) => (
                                     <span
                                         key={skill.id}
                                         style={{
                                             background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
                                             color: 'white',
-                                            padding: forPrint ? '1.5mm 3mm' : '3px 6px',
+                                            padding: '3px 6px',
                                             borderRadius: '10px',
-                                            fontSize: forPrint ? '7pt' : '6px',
+                                            fontSize: '6px',
                                             fontWeight: '500',
                                         }}
                                     >
@@ -204,12 +207,12 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
                                 ))}
                             </div>
                         ) : (
-                            <div style={{ fontSize: forPrint ? '8pt' : '7px' }}>
+                            <div style={{ fontSize: '7px' }}>
                                 {skills.slice(0, 5).map((skill) => (
-                                    <div key={skill.id} style={{ marginBottom: forPrint ? '3mm' : '5px' }}>
+                                    <div key={skill.id} style={{ marginBottom: '5px' }}>
                                         <div style={{ color: 'white', marginBottom: '2px' }}>{skill.name || 'Skill'}</div>
                                         {!settings.hideExperienceLevel && (
-                                            <div style={{ background: 'rgba(255,255,255,0.2)', borderRadius: '10px', height: forPrint ? '2mm' : '4px', overflow: 'hidden' }}>
+                                            <div style={{ background: 'rgba(255,255,255,0.2)', borderRadius: '10px', height: '4px', overflow: 'hidden' }}>
                                                 <div
                                                     style={{
                                                         height: '100%',
@@ -227,31 +230,30 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
                     </div>
                 </div>
 
-                {/* Right Content - Clean White */}
                 <div
                     style={{
                         width: '65%',
                         height: '100%',
                         backgroundColor: colors.light,
-                        padding: forPrint ? '18mm 16mm' : '26px 20px',
+                        padding: '26px 20px',
                     }}
                 >
                     {/* Header with Name */}
-                    <div style={{ marginBottom: forPrint ? '8mm' : '16px' }}>
+                    <div style={{ marginBottom: '16px' }}>
                         <h1
                             style={{
-                                fontSize: forPrint ? '20pt' : '22px',
+                                fontSize: '22px',
                                 fontWeight: '800',
                                 color: colors.dark,
                                 letterSpacing: '1px',
-                                marginBottom: forPrint ? '2mm' : '4px',
+                                marginBottom: '4px',
                             }}
                         >
                             {fullName.toUpperCase()}
                         </h1>
                         <div
                             style={{
-                                width: forPrint ? '15mm' : '40px',
+                                width: '40px',
                                 height: '3px',
                                 background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
                                 borderRadius: '2px',
@@ -260,21 +262,21 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
                     </div>
 
                     {/* Contact Info - Modern Pills with SVG Icons */}
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: forPrint ? '2mm' : '5px', marginBottom: forPrint ? '10mm' : '16px' }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', marginBottom: '16px' }}>
                         {/* Location */}
                         <div
                             style={{
                                 display: 'flex',
                                 alignItems: 'center',
-                                gap: forPrint ? '1.5mm' : '4px',
+                                gap: '4px',
                                 backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                                padding: forPrint ? '1.5mm 3mm' : '4px 8px',
+                                padding: '4px 8px',
                                 borderRadius: '20px',
-                                fontSize: forPrint ? '8pt' : '7px',
+                                fontSize: '7px',
                                 color: colors.text,
                             }}
                         >
-                            <svg style={{ width: forPrint ? '3mm' : '10px', height: forPrint ? '3mm' : '10px' }} fill={colors.primary} viewBox="0 0 24 24">
+                            <svg style={{ width: '10px', height: '10px' }} fill={colors.primary} viewBox="0 0 24 24">
                                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                             </svg>
                             <span>{contact.city || 'Yogyakarta'}</span>
@@ -284,15 +286,15 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
                             style={{
                                 display: 'flex',
                                 alignItems: 'center',
-                                gap: forPrint ? '1.5mm' : '4px',
+                                gap: '4px',
                                 backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                                padding: forPrint ? '1.5mm 3mm' : '4px 8px',
+                                padding: '4px 8px',
                                 borderRadius: '20px',
-                                fontSize: forPrint ? '8pt' : '7px',
+                                fontSize: '7px',
                                 color: colors.text,
                             }}
                         >
-                            <svg style={{ width: forPrint ? '3mm' : '10px', height: forPrint ? '3mm' : '10px' }} fill={colors.primary} viewBox="0 0 24 24">
+                            <svg style={{ width: '10px', height: '10px' }} fill={colors.primary} viewBox="0 0 24 24">
                                 <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
                             </svg>
                             <span>{contact.phone || '+62 812 3456 789'}</span>
@@ -302,15 +304,15 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
                             style={{
                                 display: 'flex',
                                 alignItems: 'center',
-                                gap: forPrint ? '1.5mm' : '4px',
+                                gap: '4px',
                                 backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                                padding: forPrint ? '1.5mm 3mm' : '4px 8px',
+                                padding: '4px 8px',
                                 borderRadius: '20px',
-                                fontSize: forPrint ? '8pt' : '7px',
+                                fontSize: '7px',
                                 color: colors.text,
                             }}
                         >
-                            <svg style={{ width: forPrint ? '3mm' : '10px', height: forPrint ? '3mm' : '10px' }} fill={colors.primary} viewBox="0 0 24 24">
+                            <svg style={{ width: '10px', height: '10px' }} fill={colors.primary} viewBox="0 0 24 24">
                                 <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
                             </svg>
                             <span>{contact.email || 'email@example.com'}</span>
@@ -318,14 +320,14 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
                     </div>
 
                     {/* Work Experience */}
-                    <div style={{ marginBottom: forPrint ? '10mm' : '14px' }}>
+                    <div style={{ marginBottom: '14px' }}>
                         <div
                             style={{
-                                fontSize: forPrint ? '11pt' : '11px',
+                                fontSize: '11px',
                                 fontWeight: '700',
                                 color: colors.dark,
                                 letterSpacing: '1px',
-                                marginBottom: forPrint ? '3mm' : '6px',
+                                marginBottom: '6px',
                             }}
                         >
                             EXPERIENCE
@@ -335,33 +337,33 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
                                 width: '100%',
                                 height: '1px',
                                 background: `linear-gradient(90deg, ${colors.primary}, transparent)`,
-                                marginBottom: forPrint ? '4mm' : '8px',
+                                marginBottom: '8px',
                             }}
                         />
                         {experience.length > 0 ? (
-                            experience.slice(0, 2).map((exp, index) => (
-                                <div key={exp.id} style={{ marginBottom: forPrint ? '4mm' : '8px', position: 'relative', paddingLeft: forPrint ? '4mm' : '10px' }}>
+                            experience.slice(0, 4).map((exp, index) => (
+                                <div key={exp.id} style={{ marginBottom: '8px', position: 'relative', paddingLeft: '10px' }}>
                                     <div
                                         style={{
                                             position: 'absolute',
                                             left: 0,
-                                            top: forPrint ? '1.5mm' : '4px',
-                                            width: forPrint ? '2mm' : '5px',
-                                            height: forPrint ? '2mm' : '5px',
+                                            top: '4px',
+                                            width: '5px',
+                                            height: '5px',
                                             borderRadius: '50%',
                                             background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
                                         }}
                                     />
-                                    <div style={{ fontSize: forPrint ? '9pt' : '9px', fontWeight: '600', color: colors.dark }}>{exp.jobTitle || 'Job Title'}</div>
-                                    <div style={{ fontSize: forPrint ? '8pt' : '7px', color: colors.primary, fontWeight: '500' }}>{exp.employer || 'Company'}</div>
-                                    <div style={{ fontSize: forPrint ? '7pt' : '6px', color: colors.textLight }}>{exp.startDate || '2024'} - {exp.current ? 'Present' : (exp.endDate || '2025')}</div>
+                                    <div style={{ fontSize: '9px', fontWeight: '600', color: colors.dark }}>{exp.jobTitle || 'Job Title'}</div>
+                                    <div style={{ fontSize: '7px', color: colors.primary, fontWeight: '500' }}>{exp.employer || 'Company'}</div>
+                                    <div style={{ fontSize: '6px', color: colors.textLight }}>{exp.startDate || '2024'} - {exp.current ? 'Present' : (exp.endDate || '2025')}</div>
                                     {exp.description && (
-                                        <div style={{ fontSize: forPrint ? '7pt' : '6px', color: colors.text, marginTop: '2px' }}>{exp.description.slice(0, 80)}...</div>
+                                        <div style={{ fontSize: '6px', color: colors.text, marginTop: '2px' }}>{exp.description.slice(0, 80)}...</div>
                                     )}
                                 </div>
                             ))
                         ) : (
-                            <p style={{ fontSize: forPrint ? '8pt' : '7px', color: colors.textLight, fontStyle: 'italic' }}>No experience added</p>
+                            <p style={{ fontSize: '7px', color: colors.textLight, fontStyle: 'italic' }}>No experience added</p>
                         )}
                     </div>
 
@@ -369,11 +371,11 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
                     <div>
                         <div
                             style={{
-                                fontSize: forPrint ? '11pt' : '11px',
+                                fontSize: '11px',
                                 fontWeight: '700',
                                 color: colors.dark,
                                 letterSpacing: '1px',
-                                marginBottom: forPrint ? '3mm' : '6px',
+                                marginBottom: '6px',
                             }}
                         >
                             EDUCATION
@@ -383,30 +385,33 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
                                 width: '100%',
                                 height: '1px',
                                 background: `linear-gradient(90deg, ${colors.primary}, transparent)`,
-                                marginBottom: forPrint ? '4mm' : '8px',
+                                marginBottom: '8px',
                             }}
                         />
                         {education.length > 0 ? (
-                            education.slice(0, 2).map((edu) => (
-                                <div key={edu.id} style={{ marginBottom: forPrint ? '4mm' : '8px', position: 'relative', paddingLeft: forPrint ? '4mm' : '10px' }}>
+                            education.slice(0, 4).map((edu) => (
+                                <div key={edu.id} style={{ marginBottom: '8px', position: 'relative', paddingLeft: '10px' }}>
                                     <div
                                         style={{
                                             position: 'absolute',
                                             left: 0,
-                                            top: forPrint ? '1.5mm' : '4px',
-                                            width: forPrint ? '2mm' : '5px',
-                                            height: forPrint ? '2mm' : '5px',
+                                            top: '4px',
+                                            width: '5px',
+                                            height: '5px',
                                             borderRadius: '50%',
                                             background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
                                         }}
                                     />
-                                    <div style={{ fontSize: forPrint ? '9pt' : '9px', fontWeight: '600', color: colors.dark }}>{edu.degree || 'Degree'}</div>
-                                    <div style={{ fontSize: forPrint ? '8pt' : '7px', color: colors.primary, fontWeight: '500' }}>{edu.school || 'University'}</div>
-                                    <div style={{ fontSize: forPrint ? '7pt' : '6px', color: colors.textLight }}>{edu.graduationDate || '2024'} • {edu.city || 'City'}</div>
+                                    <div style={{ fontSize: '9px', fontWeight: '600', color: colors.dark }}>{edu.degree || 'Degree'}</div>
+                                    <div style={{ fontSize: '7px', color: colors.primary, fontWeight: '500' }}>{edu.school || 'University'}</div>
+                                    <div style={{ fontSize: '6px', color: colors.textLight }}>{edu.graduationDate || '2024'} • {edu.city || 'City'}</div>
+                                    {edu.description && (
+                                        <div style={{ fontSize: '6px', color: colors.text, marginTop: '2px' }}>{edu.description.length > 80 ? edu.description.slice(0, 80) + '...' : edu.description}</div>
+                                    )}
                                 </div>
                             ))
                         ) : (
-                            <p style={{ fontSize: forPrint ? '8pt' : '7px', color: colors.textLight, fontStyle: 'italic' }}>No education added</p>
+                            <p style={{ fontSize: '7px', color: colors.textLight, fontStyle: 'italic' }}>No education added</p>
                         )}
                     </div>
                 </div>
@@ -416,7 +421,7 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
             <style>{`
                 @media print {
                     @page {
-                        size: 215.9mm 330mm;
+                        size: A4;
                         margin: 0 !important;
                         padding: 0 !important;
                     }

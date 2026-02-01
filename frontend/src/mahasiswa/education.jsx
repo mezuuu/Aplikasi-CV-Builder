@@ -30,14 +30,21 @@ export default function EducationForm() {
             {/* Add Button */}
             <button
                 onClick={addEducation}
-                className="flex items-center gap-2 text-purple-400 hover:text-pink-400 font-medium transition-colors group"
+                disabled={education.length >= 4}
+                className={`flex items-center gap-2 font-medium transition-colors group ${education.length >= 4
+                        ? 'text-white/30 cursor-not-allowed'
+                        : 'text-purple-400 hover:text-pink-400'
+                    }`}
             >
-                <div className="w-8 h-8 rounded-full bg-purple-500/20 group-hover:bg-pink-500/20 flex items-center justify-center transition-colors">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${education.length >= 4
+                        ? 'bg-white/10'
+                        : 'bg-purple-500/20 group-hover:bg-pink-500/20'
+                    }`}>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
                     </svg>
                 </div>
-                Add Education
+                {education.length >= 4 ? 'Maximum 4 Education' : 'Add Education'}
             </button>
 
             {/* Education Items */}

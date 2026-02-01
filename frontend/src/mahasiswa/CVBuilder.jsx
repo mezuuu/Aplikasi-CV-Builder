@@ -61,13 +61,11 @@ function CVBuilderContent() {
                     </div>
                 </div>
 
-                {/* Right Side - Preview Area */}
-                <div className="hidden lg:block w-[45%] bg-gradient-to-b from-[#1a1a2e] to-[#0f0f23] min-h-screen p-8 overflow-y-auto border-l border-white/5">
-                    <div className="sticky top-8">
-                        <h3 className="text-white/60 text-sm font-medium mb-4 uppercase tracking-wider">Live Preview</h3>
-                        <div className="glass rounded-2xl p-4 shadow-2xl">
-                            <Preview ref={previewRef} />
-                        </div>
+                {/* Right Side - Preview Area - Fixed Position */}
+                <div className="hidden lg:flex lg:fixed lg:right-0 lg:top-0 w-[45%] bg-gradient-to-b from-[#1a1a2e] to-[#0f0f23] h-screen p-8 border-l border-white/5 flex-col">
+                    <h3 className="text-white/60 text-sm font-medium mb-4 uppercase tracking-wider">Live Preview</h3>
+                    <div className="glass rounded-2xl p-4 shadow-2xl flex-1 flex items-center justify-center overflow-hidden">
+                        <Preview ref={previewRef} />
                     </div>
                 </div>
             </div>

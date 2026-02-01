@@ -202,9 +202,9 @@ export default function ContactForm() {
                         />
                     </div>
 
-                    {/* Phone */}
-                    <div>
-                        <label htmlFor="phone" className={labelClass}>Phone</label>
+                    {/* Phone - Full Width */}
+                    <div className="md:col-span-2">
+                        <label htmlFor="phone" className={labelClass}>Phone Number</label>
                         <input
                             type="tel"
                             id="phone"
@@ -213,20 +213,6 @@ export default function ContactForm() {
                             onChange={handleChange}
                             className={inputClass}
                             placeholder="+62 812 3456 7890"
-                        />
-                    </div>
-
-                    {/* LinkedIn */}
-                    <div>
-                        <label htmlFor="linkedin" className={labelClass}>LinkedIn</label>
-                        <input
-                            type="url"
-                            id="linkedin"
-                            name="linkedin"
-                            value={contact.linkedin || ''}
-                            onChange={handleChange}
-                            className={inputClass}
-                            placeholder="https://linkedin.com/in/username"
                         />
                     </div>
                 </div>

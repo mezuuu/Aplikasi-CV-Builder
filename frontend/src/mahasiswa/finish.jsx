@@ -15,15 +15,24 @@ export default function FinishForm() {
         documentTitle: `CV_${contact.firstName}_${contact.lastName}`.replace(/\s+/g, '_') || 'My_CV',
         pageStyle: `
             @page {
-                size: 215.9mm 330mm;
-                margin: 0;
+                size: A4;
+                margin: 0 !important;
             }
             @media print {
                 html, body {
-                    width: 215.9mm;
-                    height: 330mm;
-                    margin: 0;
-                    padding: 0;
+                    width: 210mm !important;
+                    height: 297mm !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    overflow: visible !important;
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                    color-adjust: exact !important;
+                }
+                * {
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                    color-adjust: exact !important;
                 }
             }
         `,
@@ -138,6 +147,7 @@ export default function FinishForm() {
                             className={selectClass}
                         >
                             <option value="" className="bg-[#1a1a2e]">Select...</option>
+                            <option value="No Visa" className="bg-[#1a1a2e]">No Visa</option>
                             <option value="Citizen" className="bg-[#1a1a2e]">Citizen</option>
                             <option value="Permanent Resident" className="bg-[#1a1a2e]">Permanent Resident</option>
                             <option value="Work Visa" className="bg-[#1a1a2e]">Work Visa</option>
@@ -217,8 +227,8 @@ export default function FinishForm() {
                 </button>
             </div>
 
-            {/* Hidden Preview for Print */}
-            <div className="hidden">
+            {/* Hidden Preview for Print - positioned offscreen but rendered */}
+            <div style={{ position: 'absolute', left: '-9999px', top: '-9999px' }}>
                 <Preview ref={previewRef} forPrint={true} />
             </div>
         </div>
