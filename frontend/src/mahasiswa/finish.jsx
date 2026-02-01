@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import { useCV } from './CVContext';
-import Preview from './preview';
+import Preview from './Preview';
 
 export default function FinishForm() {
     const { state, prevStep, setStep, updateContact } = useCV();
