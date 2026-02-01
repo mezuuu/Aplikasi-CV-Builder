@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import React from 'react';
 import { CVProvider, useCV } from './CVContext';
-import StepIndicator from './stepIndicator';
-import Preview from './preview';
+import StepIndicator from './StepIndicator';
+import Preview from './Preview';
 import ContactForm from './contact';
 import ExperienceForm from './experience';
 import EducationForm from './education';
