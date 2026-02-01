@@ -1,17 +1,15 @@
 # 🎨 CV Builder
 
-<div align="center">
+## 📸 Screenshots
 
-![CV Builder Screenshot](docs/screenshot.png)
+### CV Builder Interface
+![Main Interface](docs/ss.png)
 
-**A modern, sleek CV Builder application with Gen Z aesthetics**
-
-[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://reactjs.org/)
-[![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite)](https://vitejs.dev/)
-[![Django](https://img.shields.io/badge/Django-5-092E20?logo=django)](https://djangoproject.com/)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind-3-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
-
-</div>
+The application features:
+- Step-by-step form wizard with progress indicator
+- Dark theme with purple/pink gradient accents
+- Live CV preview with real-time updates
+- Professional PDF export
 
 ---
 
@@ -78,18 +76,6 @@
 
 ---
 
-## 📸 Screenshots
-
-### CV Builder Interface
-![Main Interface](docs/screenshot.png)
-
-The application features:
-- Step-by-step form wizard with progress indicator
-- Dark theme with purple/pink gradient accents
-- Live CV preview with real-time updates
-- Professional PDF export
-
----
 
 ## 👥 Team
 
