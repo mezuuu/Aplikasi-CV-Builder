@@ -50,13 +50,13 @@ export default function SkillForm() {
             </button>
 
             {/* Skill Items */}
-            <div className="space-y-4">
+            <div className="space-y-3">
                 {skills.map((skill, index) => (
-                    <div key={skill.id} className="glass rounded-2xl p-5 relative group">
-                        <div className="flex flex-col md:flex-row gap-4 items-start md:items-end">
+                    <div key={skill.id} className="glass rounded-xl p-4 relative group">
+                        <div className="flex flex-col md:flex-row gap-3 items-start md:items-end">
                             {/* Skill Name */}
-                            <div className="flex-1">
-                                <label className="block text-sm font-medium text-white/70 mb-2">
+                            <div className="flex-1 w-full md:w-auto">
+                                <label className="block text-xs font-medium text-white/70 mb-1.5">
                                     Skill Name
                                 </label>
                                 <input
@@ -68,41 +68,42 @@ export default function SkillForm() {
                                 />
                             </div>
 
-                            {/* Level Selector - Modern pill design */}
-                            <div className="flex-1">
-                                <label className="block text-sm font-medium text-white/70 mb-2">
+                            {/* Level Selector with Delete Button on Mobile */}
+                            <div className="flex-1 w-full md:w-auto">
+                                <label className="block text-xs font-medium text-white/70 mb-1.5">
                                     Level: <span className="text-purple-400">{LEVELS.find((l) => l.value === skill.level)?.label}</span>
                                 </label>
-                                <div className="flex gap-2">
-                                    {LEVELS.map((level, levelIndex) => (
-                                        <button
-                                            key={level.value}
-                                            onClick={() => handleChange(skill.id, 'level', level.value)}
-                                            className={`
-                                                flex-1 py-2.5 px-3 rounded-xl text-sm font-medium transition-all duration-300
-                                                ${levelIndex <= getLevelIndex(skill.level)
-                                                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/30'
-                                                    : 'bg-white/5 text-white/50 hover:bg-white/10 hover:text-white/80'
-                                                }
-                                            `}
-                                            title={level.label}
-                                        >
-                                            <span className="hidden sm:inline">{level.emoji}</span>
-                                        </button>
-                                    ))}
+                                <div className="flex gap-2 items-center">
+                                    <div className="flex gap-1.5 flex-1">
+                                        {LEVELS.map((level, levelIndex) => (
+                                            <button
+                                                key={level.value}
+                                                onClick={() => handleChange(skill.id, 'level', level.value)}
+                                                className={`
+                                                    flex-1 py-2 px-2 rounded-lg text-xs font-medium transition-all duration-300
+                                                    ${levelIndex <= getLevelIndex(skill.level)
+                                                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/30'
+                                                        : 'bg-white/5 text-white/50 hover:bg-white/10 hover:text-white/80'
+                                                    }
+                                                `}
+                                                title={level.label}
+                                            >
+                                                <span className="hidden sm:inline">{level.emoji}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                    {/* Delete Button - Always visible on mobile, hover on desktop */}
+                                    <button
+                                        onClick={() => removeSkill(skill.id)}
+                                        className="text-white/40 hover:text-red-400 transition-colors p-1.5 md:opacity-0 md:group-hover:opacity-100"
+                                        title="Remove"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
-
-                            {/* Remove Button */}
-                            <button
-                                onClick={() => removeSkill(skill.id)}
-                                className="text-white/30 hover:text-red-400 transition-colors p-2 opacity-0 group-hover:opacity-100"
-                                title="Remove"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                                </svg>
-                            </button>
                         </div>
                     </div>
                 ))}

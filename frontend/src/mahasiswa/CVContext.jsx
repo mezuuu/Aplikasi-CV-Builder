@@ -61,7 +61,6 @@ function cvReducer(state, action) {
             return {
                 ...state,
                 experience: [
-                    ...state.experience,
                     {
                         id: Date.now(),
                         employer: '',
@@ -72,6 +71,7 @@ function cvReducer(state, action) {
                         description: '',
                         current: false,
                     },
+                    ...state.experience,
                 ],
             };
 
@@ -93,7 +93,6 @@ function cvReducer(state, action) {
             return {
                 ...state,
                 education: [
-                    ...state.education,
                     {
                         id: Date.now(),
                         school: '',
@@ -102,6 +101,7 @@ function cvReducer(state, action) {
                         city: '',
                         description: '',
                     },
+                    ...state.education,
                 ],
             };
 
@@ -123,12 +123,12 @@ function cvReducer(state, action) {
             return {
                 ...state,
                 skills: [
-                    ...state.skills,
                     {
                         id: Date.now(),
                         name: '',
                         level: 'skillful', // beginner | skillful | experienced
                     },
+                    ...state.skills,
                 ],
             };
 
