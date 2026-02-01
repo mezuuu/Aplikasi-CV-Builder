@@ -1,15 +1,14 @@
 import { useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import { useCV } from './CVContext';
-import Preview from './Preview';
-import api from '../api';
+import Preview from './preview';
 
-export default function FinishForm({ handleLogout }) {
+export default function FinishForm() {
     const { state, prevStep, setStep, updateContact } = useCV();
     const { contact, experience, education, skills, about } = state;
     const previewRef = useRef(null);
     const [isSaving, setIsSaving] = useState(false);
-    const [saveStatus, setSaveStatus] = useState(null); // 'success' | 'error' | null
+    const [saveStatus, setSaveStatus] = useState(null);
 
     const handlePrint = useReactToPrint({
         contentRef: previewRef,
@@ -35,99 +34,6 @@ export default function FinishForm({ handleLogout }) {
         updateContact({ [name]: value });
     };
 
-    // Helper function to convert base64 to Blob
-    const base64ToBlob = (base64, mimeType) => {
-        const byteString = atob(base64.split(',')[1]);
-        const ab = new ArrayBuffer(byteString.length);
-        const ia = new Uint8Array(ab);
-        for (let i = 0; i < byteString.length; i++) {
-            ia[i] = byteString.charCodeAt(i);
-        }
-        return new Blob([ab], { type: mimeType });
-    };
-
-    // Save biodata to backend
-    const handleSaveBiodata = async () => {
-        setIsSaving(true);
-        setSaveStatus(null);
-
-        try {
-            const fullName = `${contact.firstName} ${contact.lastName}`.trim();
-
-            // Create FormData for multipart upload (needed for photo)
-            const formData = new FormData();
-            formData.append('full_name', fullName);
-            formData.append('nim', about.nim || contact.nim || '');
-            formData.append('prodi', about.prodi || contact.prodi || 'Informatika');
-            formData.append('bio', about.summary || '');
-            formData.append('linkedin_link', contact.linkedin || '');
-
-            // Add photo if exists
-            if (contact.photo) {
-                // Extract mime type from base64 string
-                const mimeMatch = contact.photo.match(/data:(.*?);base64,/);
-                const mimeType = mimeMatch ? mimeMatch[1] : 'image/jpeg';
-                const photoBlob = base64ToBlob(contact.photo, mimeType);
-                const extension = mimeType.split('/')[1] || 'jpg';
-                formData.append('photo', photoBlob, `profile.${extension}`);
-            }
-
-            // Try to update existing profile first, if not exist create new
-            try {
-                await api.patch('/api/students/me/', formData, {
-                    headers: { 'Content-Type': 'multipart/form-data' }
-                });
-            } catch (err) {
-                // If profile doesn't exist, create new one
-                if (err.response && err.response.status === 404) {
-                    await api.post('/api/students/', formData, {
-                        headers: { 'Content-Type': 'multipart/form-data' }
-                    });
-                } else {
-                    throw err;
-                }
-            }
-
-            // Save skills
-            for (const skill of skills) {
-                if (skill.name) {
-                    try {
-                        await api.post('/api/skills/', { name: skill.name });
-                    } catch (skillErr) {
-                        // Skip if skill already exists
-                        console.log('Skill may already exist:', skill.name);
-                    }
-                }
-            }
-
-            // Save experiences
-            for (const exp of experience) {
-                if (exp.employer && exp.jobTitle) {
-                    try {
-                        await api.post('/api/experiences/', {
-                            title: exp.jobTitle,
-                            company: exp.employer,
-                            start_date: exp.startDate || '2024-01-01',
-                            end_date: exp.current ? null : (exp.endDate || '2024-12-31'),
-                            description: exp.description || '',
-                        });
-                    } catch (expErr) {
-                        console.log('Experience may already exist:', exp.jobTitle);
-                    }
-                }
-            }
-
-            setSaveStatus('success');
-            alert('✅ Biodata berhasil disimpan! Data Anda akan muncul di halaman Talenta Terbaru.');
-        } catch (error) {
-            console.error('Error saving biodata:', error);
-            setSaveStatus('error');
-            alert('❌ Gagal menyimpan biodata. Pastikan Anda sudah login.');
-        } finally {
-            setIsSaving(false);
-        }
-    };
-
     // Summary counts
     const experienceCount = experience.length;
     const educationCount = education.length;
@@ -135,122 +41,140 @@ export default function FinishForm({ handleLogout }) {
     const hasSummary = about.summary?.trim().length > 0;
     const hasContact = contact.firstName || contact.lastName || contact.email;
 
+    // Shared input class for dark theme
+    const inputClass = "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 focus:bg-white/10 outline-none transition-all duration-300";
+    const selectClass = "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 focus:bg-white/10 outline-none transition-all duration-300 appearance-none cursor-pointer";
+    const labelClass = "block text-sm font-medium text-white/70 mb-2";
+
     return (
         <div className="space-y-6">
-            {/* Header */}
-            <div>
-                <h1 className="text-2xl font-bold text-gray-800">
-                    <span className="text-[#2596be]">🎉 Great job!</span> Your CV is ready
+            {/* Header with celebration */}
+            <div className="text-center">
+                <div className="text-5xl mb-3">🎉</div>
+                <h1 className="text-3xl font-bold text-white">
+                    Awesome! Your{' '}
+                    <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                        CV is ready
+                    </span>
                 </h1>
-                <p className="text-gray-500 mt-1 text-sm">
-                    Review your CV, add optional details, and download it as a PDF.
+                <p className="text-white/50 mt-2 text-sm">
+                    Review your details and download as PDF ✨
                 </p>
             </div>
 
-            {/* Optional Personal Details */}
-            <div className="bg-gray-50 p-4 rounded-xl border border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                    Optional Personal Details
+            {/* Summary Stats - Glass Card */}
+            <div className="glass rounded-2xl p-6">
+                <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                    <span>📊</span> CV Summary
                 </h2>
-                <p className="text-sm text-gray-500 mb-4">
-                    These fields are optional and will be shown in the CV sidebar.
+                <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
+                    <div className="bg-white/5 p-4 rounded-xl text-center group hover:bg-white/10 transition-all cursor-pointer" onClick={() => setStep(0)}>
+                        <div className={`text-2xl font-bold ${hasContact ? 'text-green-400' : 'text-white/30'}`}>
+                            {hasContact ? '✓' : '—'}
+                        </div>
+                        <div className="text-xs text-white/50 mt-1">Contact</div>
+                    </div>
+                    <div className="bg-white/5 p-4 rounded-xl text-center group hover:bg-white/10 transition-all cursor-pointer" onClick={() => setStep(1)}>
+                        <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                            {experienceCount}
+                        </div>
+                        <div className="text-xs text-white/50 mt-1">Experience</div>
+                    </div>
+                    <div className="bg-white/5 p-4 rounded-xl text-center group hover:bg-white/10 transition-all cursor-pointer" onClick={() => setStep(2)}>
+                        <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                            {educationCount}
+                        </div>
+                        <div className="text-xs text-white/50 mt-1">Education</div>
+                    </div>
+                    <div className="bg-white/5 p-4 rounded-xl text-center group hover:bg-white/10 transition-all cursor-pointer" onClick={() => setStep(3)}>
+                        <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                            {skillsCount}
+                        </div>
+                        <div className="text-xs text-white/50 mt-1">Skills</div>
+                    </div>
+                    <div className="bg-white/5 p-4 rounded-xl text-center group hover:bg-white/10 transition-all cursor-pointer" onClick={() => setStep(4)}>
+                        <div className={`text-2xl font-bold ${hasSummary ? 'text-green-400' : 'text-white/30'}`}>
+                            {hasSummary ? '✓' : '—'}
+                        </div>
+                        <div className="text-xs text-white/50 mt-1">Summary</div>
+                    </div>
+                </div>
+                <p className="text-xs text-white/30 mt-3 text-center">
+                    Click any section to edit
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+            </div>
+
+            {/* Optional Personal Details - Glass Card */}
+            <div className="glass rounded-2xl p-6">
+                <h2 className="text-lg font-semibold text-white mb-2 flex items-center gap-2">
+                    <span>⚙️</span> Optional Details
+                </h2>
+                <p className="text-sm text-white/40 mb-4">
+                    These will appear in your CV sidebar
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {/* Nationality */}
                     <div>
-                        <label htmlFor="nationality" className="block text-sm font-medium text-gray-700 mb-1">
-                            Nationality
-                        </label>
+                        <label htmlFor="nationality" className={labelClass}>Nationality</label>
                         <input
                             type="text"
                             id="nationality"
                             name="nationality"
-                            value={contact.nationality}
+                            value={contact.nationality || ''}
                             onChange={handleChange}
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2596be] focus:border-[#2596be] outline-none transition-all"
-                            placeholder=""
+                            className={inputClass}
+                            placeholder="Indonesian"
                         />
                     </div>
 
                     {/* Visa Status */}
-                    <div>
-                        <label htmlFor="visaStatus" className="block text-sm font-medium text-gray-700 mb-1">
-                            Visa Status
-                        </label>
+                    <div className="relative">
+                        <label htmlFor="visaStatus" className={labelClass}>Visa Status</label>
                         <select
                             id="visaStatus"
                             name="visaStatus"
-                            value={contact.visaStatus}
+                            value={contact.visaStatus || ''}
                             onChange={handleChange}
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2596be] focus:border-[#2596be] outline-none transition-all"
+                            className={selectClass}
                         >
-                            <option value="">Select...</option>
-                            <option value="Citizen">Citizen</option>
-                            <option value="Permanent Resident">Permanent Resident</option>
-                            <option value="Work Visa">Work Visa</option>
-                            <option value="Student Visa">Student Visa</option>
-                            <option value="Other">Other</option>
+                            <option value="" className="bg-[#1a1a2e]">Select...</option>
+                            <option value="Citizen" className="bg-[#1a1a2e]">Citizen</option>
+                            <option value="Permanent Resident" className="bg-[#1a1a2e]">Permanent Resident</option>
+                            <option value="Work Visa" className="bg-[#1a1a2e]">Work Visa</option>
+                            <option value="Student Visa" className="bg-[#1a1a2e]">Student Visa</option>
                         </select>
+                        <div className="absolute right-4 top-[42px] pointer-events-none text-white/40">
+                            ▼
+                        </div>
                     </div>
 
                     {/* Marital Status */}
-                    <div>
-                        <label htmlFor="maritalStatus" className="block text-sm font-medium text-gray-700 mb-1">
-                            Marital Status
-                        </label>
+                    <div className="relative">
+                        <label htmlFor="maritalStatus" className={labelClass}>Marital Status</label>
                         <select
                             id="maritalStatus"
                             name="maritalStatus"
-                            value={contact.maritalStatus}
+                            value={contact.maritalStatus || ''}
                             onChange={handleChange}
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2596be] focus:border-[#2596be] outline-none transition-all"
+                            className={selectClass}
                         >
-                            <option value="">Select...</option>
-                            <option value="Single">Single / Lajang</option>
-                            <option value="Married">Married / Menikah</option>
-                            <option value="Divorced">Divorced</option>
-                            <option value="Widowed">Widowed</option>
+                            <option value="" className="bg-[#1a1a2e]">Select...</option>
+                            <option value="Single" className="bg-[#1a1a2e]">Single</option>
+                            <option value="Married" className="bg-[#1a1a2e]">Married</option>
+                            <option value="Divorced" className="bg-[#1a1a2e]">Divorced</option>
                         </select>
+                        <div className="absolute right-4 top-[42px] pointer-events-none text-white/40">
+                            ▼
+                        </div>
                     </div>
                 </div>
             </div>
 
-            {/* Summary Card */}
-            <div className="bg-gradient-to-r from-[#2596be]/10 to-blue-50 p-6 rounded-xl border border-[#2596be]/20">
-                <h2 className="text-lg font-semibold text-gray-800 mb-4">CV Summary</h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <div className="bg-white p-4 rounded-lg shadow-sm">
-                        <div className="text-2xl font-bold text-[#2596be]">
-                            {hasContact ? '✓' : '—'}
-                        </div>
-                        <div className="text-sm text-gray-600">Contact Info</div>
-                    </div>
-                    <div className="bg-white p-4 rounded-lg shadow-sm">
-                        <div className="text-2xl font-bold text-[#2596be]">{experienceCount}</div>
-                        <div className="text-sm text-gray-600">Experience(s)</div>
-                    </div>
-                    <div className="bg-white p-4 rounded-lg shadow-sm">
-                        <div className="text-2xl font-bold text-[#2596be]">{educationCount}</div>
-                        <div className="text-sm text-gray-600">Education(s)</div>
-                    </div>
-                    <div className="bg-white p-4 rounded-lg shadow-sm">
-                        <div className="text-2xl font-bold text-[#2596be]">{skillsCount}</div>
-                        <div className="text-sm text-gray-600">Skill(s)</div>
-                    </div>
-                    <div className="bg-white p-4 rounded-lg shadow-sm">
-                        <div className="text-2xl font-bold text-[#2596be]">
-                            {hasSummary ? '✓' : '—'}
-                        </div>
-                        <div className="text-sm text-gray-600">Summary</div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Download Button */}
-            <div className="pt-4">
+            {/* Download Button - Primary Action */}
+            <div className="pt-2">
                 <button
                     onClick={handlePrint}
-                    className="w-full flex items-center justify-center gap-3 bg-[#2596be] hover:bg-[#1e7a9a] text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200"
+                    className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-xl shadow-purple-500/30 hover:shadow-purple-500/50 transition-all duration-300 hover:-translate-y-1"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -270,99 +194,27 @@ export default function FinishForm({ handleLogout }) {
                 </button>
             </div>
 
-            {/* Simpan Biodata Button */}
-            <div className="pt-2">
-                <button
-                    onClick={handleSaveBiodata}
-                    disabled={isSaving}
-                    className={`w-full flex items-center justify-center gap-3 ${saveStatus === 'success'
-                        ? 'bg-green-500 hover:bg-green-600'
-                        : 'bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700'
-                        } text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed`}
-                >
-                    {isSaving ? (
-                        <>
-                            <svg className="animate-spin h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            Menyimpan...
-                        </>
-                    ) : saveStatus === 'success' ? (
-                        <>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                            </svg>
-                            Biodata Tersimpan!
-                        </>
-                    ) : (
-                        <>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-6 w-6"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                strokeWidth={2}
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
-                                />
-                            </svg>
-                            Simpan Biodata ke Database
-                        </>
-                    )}
-                </button>
-                <p className="text-xs text-gray-500 text-center mt-2">
-                    💾 Data akan ditampilkan di halaman "Talenta Terbaru"
-                </p>
-            </div>
-
             {/* Navigation */}
             <div className="flex justify-between items-center pt-4">
                 <button
                     onClick={prevStep}
-                    className="flex items-center gap-2 text-gray-600 hover:text-gray-800 font-medium transition-colors"
+                    className="flex items-center gap-2 text-white/60 hover:text-white font-medium transition-colors"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                    >
-                        <path
-                            fillRule="evenodd"
-                            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-                            clipRule="evenodd"
-                        />
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
                     </svg>
-                    Back
+                    Back to About
                 </button>
 
-                {handleLogout && (
-                    <button
-                        onClick={handleLogout}
-                        className="flex items-center justify-center gap-2 bg-[#dc3545] hover:bg-[#c82333] text-white px-6 py-2.5 rounded-lg font-medium transition-colors duration-200"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                            />
-                        </svg>
-                        Log Out
-                    </button>
-                )}
+                <button
+                    onClick={() => setStep(0)}
+                    className="flex items-center gap-2 text-purple-400 hover:text-pink-400 font-medium transition-colors"
+                >
+                    Start Over
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" />
+                    </svg>
+                </button>
             </div>
 
             {/* Hidden Preview for Print */}

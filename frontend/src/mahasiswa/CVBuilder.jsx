@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import React from 'react';
 import { CVProvider, useCV } from './CVContext';
 import StepIndicator from './stepIndicator';
-import Preview from './Preview';
+import Preview from './preview';
 import ContactForm from './contact';
 import ExperienceForm from './experience';
 import EducationForm from './education';
@@ -28,17 +28,16 @@ function CVBuilderContent() {
     // Get current step component
     const CurrentStepComponent = STEP_COMPONENTS[currentStep] || ContactForm;
 
-    // Logout handler
-    const handleLogout = () => {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        localStorage.removeItem('user_info');
-        window.location.href = '/login';
-    };
-
     return (
-        <div className="min-h-screen bg-white flex flex-col">
-            <div className="flex flex-col lg:flex-row flex-1">
+        <div className="min-h-screen bg-gradient-to-br from-[#0f0f23] via-[#1a1a2e] to-[#0f0f23] flex flex-col relative overflow-hidden">
+            {/* Animated background elements */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse" />
+                <div className="absolute top-1/2 -left-40 w-80 h-80 bg-pink-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+                <div className="absolute -bottom-40 right-1/3 w-80 h-80 bg-cyan-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+            </div>
+
+            <div className="flex flex-col lg:flex-row flex-1 relative z-10">
                 {/* Left Side - Form Area */}
                 <div className="w-full lg:w-[55%] min-h-screen flex flex-col">
                     {/* Step Indicator Header */}
@@ -46,23 +45,35 @@ function CVBuilderContent() {
 
                     {/* Form Content */}
                     <div className="flex-1 p-6 lg:p-10 lg:pr-12 overflow-y-auto">
-                        <CurrentStepComponent previewRef={previewRef} handleLogout={handleLogout} />
+                        <div className="animate-slide-up">
+                            <CurrentStepComponent previewRef={previewRef} />
+                        </div>
                     </div>
 
-                    {/* Footer */}
-                    <div className="bg-[#303f9f] text-white py-3 px-6">
-                        <span className="font-bold text-lg">Talenta UMS</span>
+                    {/* Footer - Modern, no branding */}
+                    <div className="bg-gradient-to-r from-purple-600/90 to-pink-600/90 backdrop-blur-lg text-white py-4 px-6 border-t border-white/10">
+                        <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium opacity-90">Build your career story ✨</span>
+                            <div className="flex items-center gap-2 text-xs opacity-70">
+                                <p>Made By <span className="font-bold">Mezuu Dev</span> with Vite + React and Tailwind CSS</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 {/* Right Side - Preview Area */}
-                <div className="hidden lg:block w-[45%] bg-gray-200 min-h-screen p-8 overflow-y-auto">
-                    <Preview ref={previewRef} />
+                <div className="hidden lg:block w-[45%] bg-gradient-to-b from-[#1a1a2e] to-[#0f0f23] min-h-screen p-8 overflow-y-auto border-l border-white/5">
+                    <div className="sticky top-8">
+                        <h3 className="text-white/60 text-sm font-medium mb-4 uppercase tracking-wider">Live Preview</h3>
+                        <div className="glass rounded-2xl p-4 shadow-2xl">
+                            <Preview ref={previewRef} />
+                        </div>
+                    </div>
                 </div>
             </div>
 
             {/* Mobile Preview Toggle */}
-            <div className="lg:hidden fixed bottom-4 right-4">
+            <div className="lg:hidden fixed bottom-6 right-6 z-50">
                 <MobilePreviewButton previewRef={previewRef} />
             </div>
         </div>
@@ -77,7 +88,7 @@ function MobilePreviewButton({ previewRef }) {
         <>
             <button
                 onClick={() => setShowPreview(true)}
-                className="bg-[#2596be] hover:bg-[#1e7a9a] text-white p-4 rounded-full shadow-lg transition-all"
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white p-4 rounded-2xl shadow-lg shadow-purple-500/30 transition-all hover:scale-105 hover:shadow-purple-500/50"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -103,15 +114,15 @@ function MobilePreviewButton({ previewRef }) {
 
             {/* Mobile Preview Modal */}
             {showPreview && (
-                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-                    <div className="bg-gray-200 rounded-xl p-4 max-w-md w-full max-h-[90vh] overflow-y-auto relative">
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <div className="glass-strong rounded-3xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto relative animate-slide-up">
                         <button
                             onClick={() => setShowPreview(false)}
-                            className="absolute top-2 right-2 bg-white rounded-full p-2 shadow hover:bg-gray-100"
+                            className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 rounded-full p-2 transition-colors"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5"
+                                className="h-5 w-5 text-white"
                                 viewBox="0 0 20 20"
                                 fill="currentColor"
                             >
@@ -122,6 +133,7 @@ function MobilePreviewButton({ previewRef }) {
                                 />
                             </svg>
                         </button>
+                        <h3 className="text-white font-semibold mb-4">CV Preview</h3>
                         <Preview ref={previewRef} />
                     </div>
                 </div>

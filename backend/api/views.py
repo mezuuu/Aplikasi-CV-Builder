@@ -1,34 +1,8 @@
 from rest_framework import viewsets, permissions, status, filters
-from rest_framework.decorators import action, api_view, permission_classes
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import StudentProfile, Skill, Experience
 from .serializers import StudentProfileSerializer, SkillSerializer, ExperienceSerializer
-
-@api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
-def get_user_info(request):
-    """Get current user info including role (is_staff)"""
-    user = request.user
-    return Response({
-        'id': user.id,
-        'username': user.username,
-        'email': user.email,
-        'is_staff': user.is_staff,
-        'is_superuser': user.is_superuser,
-    })
-
-@api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
-def get_current_user(request):
-    """Get current user info for admin dashboard - endpoint /api/users/me/"""
-    user = request.user
-    return Response({
-        'id': user.id,
-        'username': user.username,
-        'email': user.email,
-        'is_staff': user.is_staff,
-        'is_superuser': user.is_superuser,
-    })
 
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = StudentProfile.objects.all()
