@@ -5,7 +5,7 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
     const { state } = useCV();
     const { contact, experience, education, skills, about, settings } = state;
 
-    const fullName = `${contact.firstName} ${contact.lastName}`.trim() || 'YOUR NAME';
+    const fullName = `${contact.firstName} ${contact.lastName}`.trim() || 'MEZUU DEV';
 
     // Format date of birth
     const formatDate = (dateString) => {
@@ -24,354 +24,389 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
         }
     };
 
+    // Modern color palette
+    const colors = {
+        primary: '#8B5CF6',      // Purple
+        secondary: '#EC4899',    // Pink
+        dark: '#1E1B4B',         // Deep purple-black
+        sidebar: '#2D2A5A',      // Dark purple
+        accent: '#A78BFA',       // Light purple
+        light: '#FAFAFF',        // Off-white
+        text: '#374151',         // Gray text
+        textLight: '#9CA3AF',    // Light gray
+    };
+
     return (
         <div className={forPrint ? '' : 'sticky top-8 w-full h-fit flex justify-center'}>
-            {/* CV Paper - A4 Size - No gaps */}
+            {/* CV Paper - A4 Size - Modern Design */}
             <div
                 ref={ref}
                 className="overflow-hidden flex"
                 style={{
                     width: forPrint ? '100%' : '380px',
                     height: forPrint ? '100%' : '580px',
-                    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-                    boxShadow: forPrint ? 'none' : '0 10px 40px rgba(0,0,0,0.2)',
+                    fontFamily: "'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+                    boxShadow: forPrint ? 'none' : '0 25px 50px rgba(139, 92, 246, 0.15)',
+                    borderRadius: forPrint ? '0' : '16px',
                 }}
             >
-                {/* Left Sidebar - Dark Gray - Full height, no gaps */}
+                {/* Left Sidebar - Modern Gradient */}
                 <div
-                    className="bg-[#4a4a4a] text-white flex flex-col"
                     style={{
-                        width: '32%',
+                        width: '35%',
                         height: '100%',
-                        padding: forPrint ? '20mm 10mm' : '25px 14px',
+                        background: `linear-gradient(180deg, ${colors.dark} 0%, ${colors.sidebar} 100%)`,
+                        padding: forPrint ? '20mm 12mm' : '28px 16px',
+                        color: 'white',
                     }}
                 >
-                    {/* Profile Photo */}
-                    <div className="flex justify-center" style={{ marginBottom: forPrint ? '18mm' : '24px' }}>
+                    {/* Profile Photo with gradient border */}
+                    <div className="flex justify-center" style={{ marginBottom: forPrint ? '16mm' : '22px' }}>
                         <div
-                            className="rounded-full border-4 border-[#3498db] flex items-center justify-center overflow-hidden bg-[#3498db]"
                             style={{
-                                width: forPrint ? '30mm' : '75px',
-                                height: forPrint ? '30mm' : '75px'
+                                width: forPrint ? '32mm' : '80px',
+                                height: forPrint ? '32mm' : '80px',
+                                borderRadius: '50%',
+                                background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
+                                padding: '3px',
                             }}
                         >
-                            {contact.photo ? (
-                                <img src={contact.photo} alt="Profile" className="w-full h-full object-cover" />
-                            ) : (
-                                <svg className="text-white" style={{ width: '60%', height: '60%' }} fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                                </svg>
-                            )}
+                            <div
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    borderRadius: '50%',
+                                    backgroundColor: colors.sidebar,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    overflow: 'hidden',
+                                }}
+                            >
+                                {contact.photo ? (
+                                    <img src={contact.photo} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                ) : (
+                                    <svg style={{ width: '60%', height: '60%', color: colors.accent }} fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                                    </svg>
+                                )}
+                            </div>
                         </div>
                     </div>
 
-                    {/* About Me */}
-                    <div style={{ marginBottom: forPrint ? '14mm' : '18px' }}>
-                        <h3
-                            className="font-bold tracking-wide border-b border-gray-500"
+                    {/* About Me Section */}
+                    <div style={{ marginBottom: forPrint ? '14mm' : '20px' }}>
+                        <div
                             style={{
-                                fontSize: forPrint ? '11pt' : '11px',
-                                paddingBottom: forPrint ? '3mm' : '5px',
-                                marginBottom: forPrint ? '5mm' : '8px',
-                                letterSpacing: '0.5px'
+                                fontSize: forPrint ? '10pt' : '10px',
+                                fontWeight: '700',
+                                letterSpacing: '2px',
+                                marginBottom: forPrint ? '4mm' : '8px',
+                                color: colors.accent,
                             }}
                         >
                             ABOUT ME
-                        </h3>
+                        </div>
+                        <div
+                            style={{
+                                width: forPrint ? '8mm' : '20px',
+                                height: '2px',
+                                background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
+                                marginBottom: forPrint ? '4mm' : '8px',
+                                borderRadius: '2px',
+                            }}
+                        />
                         <p
-                            className="text-gray-300 leading-relaxed"
-                            style={{ fontSize: forPrint ? '9pt' : '8px', lineHeight: '1.5' }}
+                            style={{
+                                fontSize: forPrint ? '9pt' : '8px',
+                                lineHeight: '1.6',
+                                color: 'rgba(255,255,255,0.8)',
+                            }}
                         >
-                            {about.summary || 'Saya jago loh rugi ga apply saya jadi pekerja.'}
+                            {about.summary || 'Creative and passionate individual seeking opportunities to grow and contribute.'}
                         </p>
                     </div>
 
                     {/* Personal Details */}
-                    <div>
-                        <h3
-                            className="font-bold tracking-wide border-b border-gray-500"
+                    <div style={{ marginBottom: forPrint ? '14mm' : '20px' }}>
+                        <div
                             style={{
-                                fontSize: forPrint ? '11pt' : '11px',
-                                paddingBottom: forPrint ? '3mm' : '5px',
-                                marginBottom: forPrint ? '5mm' : '8px',
-                                letterSpacing: '0.5px'
+                                fontSize: forPrint ? '10pt' : '10px',
+                                fontWeight: '700',
+                                letterSpacing: '2px',
+                                marginBottom: forPrint ? '4mm' : '8px',
+                                color: colors.accent,
                             }}
                         >
-                            PERSONAL DETAILS
-                        </h3>
-                        <div style={{ fontSize: forPrint ? '9pt' : '8px' }}>
-                            <div style={{ marginBottom: forPrint ? '4mm' : '6px' }}>
-                                <div className="text-gray-400" style={{ fontSize: forPrint ? '8pt' : '7px', marginBottom: '2px' }}>Date of birth</div>
-                                <div className="text-[#3498db] font-medium">{formatDate(contact.dateOfBirth)}</div>
-                            </div>
-                            <div style={{ marginBottom: forPrint ? '4mm' : '6px' }}>
-                                <div className="text-gray-400" style={{ fontSize: forPrint ? '8pt' : '7px', marginBottom: '2px' }}>Nationality</div>
-                                <div className="font-medium">{contact.nationality || 'Indonesia'}</div>
-                            </div>
-                            <div style={{ marginBottom: forPrint ? '4mm' : '6px' }}>
-                                <div className="text-gray-400" style={{ fontSize: forPrint ? '8pt' : '7px', marginBottom: '2px' }}>Visa status</div>
-                                <div className="font-medium">{contact.visaStatus || 'Disetujui'}</div>
-                            </div>
-                            <div>
-                                <div className="text-gray-400" style={{ fontSize: forPrint ? '8pt' : '7px', marginBottom: '2px' }}>Marital status</div>
-                                <div className="font-medium">{contact.maritalStatus || 'Lajang'}</div>
-                            </div>
+                            DETAILS
                         </div>
+                        <div
+                            style={{
+                                width: forPrint ? '8mm' : '20px',
+                                height: '2px',
+                                background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
+                                marginBottom: forPrint ? '4mm' : '8px',
+                                borderRadius: '2px',
+                            }}
+                        />
+                        <div style={{ fontSize: forPrint ? '8pt' : '7px' }}>
+                            {[
+                                { label: 'Birthday', value: formatDate(contact.dateOfBirth) },
+                                { label: 'Nationality', value: contact.nationality || 'Indonesian' },
+                                { label: 'Status', value: contact.maritalStatus || 'Single' },
+                            ].map((item, i) => (
+                                <div key={i} style={{ marginBottom: forPrint ? '3mm' : '6px' }}>
+                                    <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: forPrint ? '7pt' : '6px' }}>{item.label}</div>
+                                    <div style={{ color: colors.accent, fontWeight: '500' }}>{item.value}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Skills Section in Sidebar */}
+                    <div>
+                        <div
+                            style={{
+                                fontSize: forPrint ? '10pt' : '10px',
+                                fontWeight: '700',
+                                letterSpacing: '2px',
+                                marginBottom: forPrint ? '4mm' : '8px',
+                                color: colors.accent,
+                            }}
+                        >
+                            SKILLS
+                        </div>
+                        <div
+                            style={{
+                                width: forPrint ? '8mm' : '20px',
+                                height: '2px',
+                                background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
+                                marginBottom: forPrint ? '4mm' : '8px',
+                                borderRadius: '2px',
+                            }}
+                        />
+                        {settings.viewSkillsAsTags ? (
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: forPrint ? '2mm' : '4px' }}>
+                                {skills.map((skill) => (
+                                    <span
+                                        key={skill.id}
+                                        style={{
+                                            background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
+                                            color: 'white',
+                                            padding: forPrint ? '1.5mm 3mm' : '3px 6px',
+                                            borderRadius: '10px',
+                                            fontSize: forPrint ? '7pt' : '6px',
+                                            fontWeight: '500',
+                                        }}
+                                    >
+                                        {skill.name || 'Skill'}
+                                    </span>
+                                ))}
+                            </div>
+                        ) : (
+                            <div style={{ fontSize: forPrint ? '8pt' : '7px' }}>
+                                {skills.slice(0, 5).map((skill) => (
+                                    <div key={skill.id} style={{ marginBottom: forPrint ? '3mm' : '5px' }}>
+                                        <div style={{ color: 'white', marginBottom: '2px' }}>{skill.name || 'Skill'}</div>
+                                        {!settings.hideExperienceLevel && (
+                                            <div style={{ background: 'rgba(255,255,255,0.2)', borderRadius: '10px', height: forPrint ? '2mm' : '4px', overflow: 'hidden' }}>
+                                                <div
+                                                    style={{
+                                                        height: '100%',
+                                                        width: `${getLevelPercentage(skill.level)}%`,
+                                                        background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
+                                                        borderRadius: '10px',
+                                                    }}
+                                                />
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
 
-                {/* Right Content - Light Gray - Full height, no gaps */}
+                {/* Right Content - Clean White */}
                 <div
-                    className="bg-[#f8f8f8] flex flex-col"
                     style={{
-                        width: '68%',
+                        width: '65%',
                         height: '100%',
-                        padding: forPrint ? '18mm 14mm' : '22px 18px',
+                        backgroundColor: colors.light,
+                        padding: forPrint ? '18mm 16mm' : '26px 20px',
                     }}
                 >
                     {/* Header with Name */}
-                    <div style={{ marginBottom: forPrint ? '10mm' : '14px' }}>
+                    <div style={{ marginBottom: forPrint ? '8mm' : '16px' }}>
                         <h1
-                            className="font-bold text-[#333] tracking-wide"
                             style={{
-                                fontSize: forPrint ? '22pt' : '20px',
-                                marginBottom: forPrint ? '6mm' : '10px',
-                                fontWeight: '700',
-                                letterSpacing: '2px'
+                                fontSize: forPrint ? '20pt' : '22px',
+                                fontWeight: '800',
+                                color: colors.dark,
+                                letterSpacing: '1px',
+                                marginBottom: forPrint ? '2mm' : '4px',
                             }}
                         >
                             {fullName.toUpperCase()}
                         </h1>
+                        <div
+                            style={{
+                                width: forPrint ? '15mm' : '40px',
+                                height: '3px',
+                                background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
+                                borderRadius: '2px',
+                            }}
+                        />
+                    </div>
 
-                        {/* Contact Info - Right aligned icons */}
-                        <div className="flex flex-col items-end" style={{ fontSize: forPrint ? '9pt' : '8px', gap: forPrint ? '2.5mm' : '4px' }}>
-                            <div className="flex items-center" style={{ gap: forPrint ? '3mm' : '6px' }}>
-                                <span className="text-gray-600">{contact.city || 'Yokyakarta'}{contact.postalCode && `, ${contact.postalCode}`}</span>
-                                <div
-                                    className="rounded-full bg-[#3498db] flex items-center justify-center flex-shrink-0"
-                                    style={{ width: forPrint ? '5.5mm' : '14px', height: forPrint ? '5.5mm' : '14px' }}
-                                >
-                                    <svg className="text-white" style={{ width: '55%', height: '55%' }} fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div className="flex items-center" style={{ gap: forPrint ? '3mm' : '6px' }}>
-                                <span className="text-gray-600">{contact.phone || '086734991829'}</span>
-                                <div
-                                    className="rounded-full bg-[#3498db] flex items-center justify-center flex-shrink-0"
-                                    style={{ width: forPrint ? '5.5mm' : '14px', height: forPrint ? '5.5mm' : '14px' }}
-                                >
-                                    <svg className="text-white" style={{ width: '55%', height: '55%' }} fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div className="flex items-center" style={{ gap: forPrint ? '3mm' : '6px' }}>
-                                <span className="text-gray-600">{contact.email || 'cahyaferdiabad@gmail.com'}</span>
-                                <div
-                                    className="rounded-full bg-[#3498db] flex items-center justify-center flex-shrink-0"
-                                    style={{ width: forPrint ? '5.5mm' : '14px', height: forPrint ? '5.5mm' : '14px' }}
-                                >
-                                    <svg className="text-white" style={{ width: '55%', height: '55%' }} fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-                                    </svg>
-                                </div>
-                            </div>
+                    {/* Contact Info - Modern Pills with SVG Icons */}
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: forPrint ? '2mm' : '5px', marginBottom: forPrint ? '10mm' : '16px' }}>
+                        {/* Location */}
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: forPrint ? '1.5mm' : '4px',
+                                backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                                padding: forPrint ? '1.5mm 3mm' : '4px 8px',
+                                borderRadius: '20px',
+                                fontSize: forPrint ? '8pt' : '7px',
+                                color: colors.text,
+                            }}
+                        >
+                            <svg style={{ width: forPrint ? '3mm' : '10px', height: forPrint ? '3mm' : '10px' }} fill={colors.primary} viewBox="0 0 24 24">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                            </svg>
+                            <span>{contact.city || 'Yogyakarta'}</span>
+                        </div>
+                        {/* Phone */}
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: forPrint ? '1.5mm' : '4px',
+                                backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                                padding: forPrint ? '1.5mm 3mm' : '4px 8px',
+                                borderRadius: '20px',
+                                fontSize: forPrint ? '8pt' : '7px',
+                                color: colors.text,
+                            }}
+                        >
+                            <svg style={{ width: forPrint ? '3mm' : '10px', height: forPrint ? '3mm' : '10px' }} fill={colors.primary} viewBox="0 0 24 24">
+                                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                            </svg>
+                            <span>{contact.phone || '+62 812 3456 789'}</span>
+                        </div>
+                        {/* Email */}
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: forPrint ? '1.5mm' : '4px',
+                                backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                                padding: forPrint ? '1.5mm 3mm' : '4px 8px',
+                                borderRadius: '20px',
+                                fontSize: forPrint ? '8pt' : '7px',
+                                color: colors.text,
+                            }}
+                        >
+                            <svg style={{ width: forPrint ? '3mm' : '10px', height: forPrint ? '3mm' : '10px' }} fill={colors.primary} viewBox="0 0 24 24">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                            </svg>
+                            <span>{contact.email || 'email@example.com'}</span>
                         </div>
                     </div>
 
                     {/* Work Experience */}
                     <div style={{ marginBottom: forPrint ? '10mm' : '14px' }}>
-                        <h2
-                            className="font-bold text-[#333] tracking-wide"
+                        <div
                             style={{
-                                fontSize: forPrint ? '12pt' : '12px',
-                                borderBottom: '1px solid #d0d0d0',
-                                paddingBottom: forPrint ? '2.5mm' : '4px',
-                                marginBottom: forPrint ? '5mm' : '8px',
-                                letterSpacing: '1px'
+                                fontSize: forPrint ? '11pt' : '11px',
+                                fontWeight: '700',
+                                color: colors.dark,
+                                letterSpacing: '1px',
+                                marginBottom: forPrint ? '3mm' : '6px',
                             }}
                         >
-                            WORK EXPERIENCE
-                        </h2>
+                            EXPERIENCE
+                        </div>
+                        <div
+                            style={{
+                                width: '100%',
+                                height: '1px',
+                                background: `linear-gradient(90deg, ${colors.primary}, transparent)`,
+                                marginBottom: forPrint ? '4mm' : '8px',
+                            }}
+                        />
                         {experience.length > 0 ? (
-                            <div>
-                                {experience.map((exp, index) => (
-                                    <div key={exp.id} className="flex" style={{ marginBottom: forPrint ? '5mm' : '8px' }}>
-                                        {/* Timeline */}
-                                        <div className="flex flex-col items-center" style={{ marginRight: forPrint ? '4mm' : '8px' }}>
-                                            <div
-                                                className="rounded-full bg-[#3498db] flex-shrink-0"
-                                                style={{ width: forPrint ? '3mm' : '7px', height: forPrint ? '3mm' : '7px' }}
-                                            />
-                                            {index < experience.length - 1 && (
-                                                <div className="w-px flex-1 bg-gray-400" style={{ minHeight: forPrint ? '10mm' : '24px' }} />
-                                            )}
-                                        </div>
-                                        {/* Content */}
-                                        <div className="flex-1 grid grid-cols-2" style={{ gap: forPrint ? '5mm' : '10px' }}>
-                                            <div>
-                                                <div className="font-semibold text-[#333]" style={{ fontSize: forPrint ? '10pt' : '9px' }}>
-                                                    {exp.employer || 'Bank BRI'}
-                                                </div>
-                                                <div className="text-gray-500" style={{ fontSize: forPrint ? '8pt' : '7px' }}>
-                                                    {exp.city || 'Yokyakarta'}
-                                                </div>
-                                                <div className="text-gray-500" style={{ fontSize: forPrint ? '8pt' : '7px' }}>
-                                                    {exp.startDate || 'Feb 2023'} - {exp.current ? 'Present' : (exp.endDate || 'Jun 2025')}
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div className="font-semibold text-[#333]" style={{ fontSize: forPrint ? '10pt' : '9px' }}>
-                                                    {exp.jobTitle || 'IT Support'}
-                                                </div>
-                                                <div className="text-gray-500" style={{ fontSize: forPrint ? '8pt' : '7px' }}>
-                                                    {exp.description || 'Mengelolola Dan Maintance Server'}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                            experience.slice(0, 2).map((exp, index) => (
+                                <div key={exp.id} style={{ marginBottom: forPrint ? '4mm' : '8px', position: 'relative', paddingLeft: forPrint ? '4mm' : '10px' }}>
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            left: 0,
+                                            top: forPrint ? '1.5mm' : '4px',
+                                            width: forPrint ? '2mm' : '5px',
+                                            height: forPrint ? '2mm' : '5px',
+                                            borderRadius: '50%',
+                                            background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
+                                        }}
+                                    />
+                                    <div style={{ fontSize: forPrint ? '9pt' : '9px', fontWeight: '600', color: colors.dark }}>{exp.jobTitle || 'Job Title'}</div>
+                                    <div style={{ fontSize: forPrint ? '8pt' : '7px', color: colors.primary, fontWeight: '500' }}>{exp.employer || 'Company'}</div>
+                                    <div style={{ fontSize: forPrint ? '7pt' : '6px', color: colors.textLight }}>{exp.startDate || '2024'} - {exp.current ? 'Present' : (exp.endDate || '2025')}</div>
+                                    {exp.description && (
+                                        <div style={{ fontSize: forPrint ? '7pt' : '6px', color: colors.text, marginTop: '2px' }}>{exp.description.slice(0, 80)}...</div>
+                                    )}
+                                </div>
+                            ))
                         ) : (
-                            <p className="text-gray-400 italic" style={{ fontSize: forPrint ? '9pt' : '8px' }}>No experience added</p>
+                            <p style={{ fontSize: forPrint ? '8pt' : '7px', color: colors.textLight, fontStyle: 'italic' }}>No experience added</p>
                         )}
                     </div>
 
                     {/* Education */}
-                    <div style={{ marginBottom: forPrint ? '10mm' : '14px' }}>
-                        <h2
-                            className="font-bold text-[#333] tracking-wide"
+                    <div>
+                        <div
                             style={{
-                                fontSize: forPrint ? '12pt' : '12px',
-                                borderBottom: '1px solid #d0d0d0ff',
-                                paddingBottom: forPrint ? '2.5mm' : '4px',
-                                marginBottom: forPrint ? '5mm' : '8px',
-                                letterSpacing: '1px'
+                                fontSize: forPrint ? '11pt' : '11px',
+                                fontWeight: '700',
+                                color: colors.dark,
+                                letterSpacing: '1px',
+                                marginBottom: forPrint ? '3mm' : '6px',
                             }}
                         >
                             EDUCATION
-                        </h2>
-                        {education.length > 0 ? (
-                            <div>
-                                {education.map((edu, index) => (
-                                    <div key={edu.id} className="flex" style={{ marginBottom: forPrint ? '5mm' : '8px' }}>
-                                        {/* Timeline */}
-                                        <div className="flex flex-col items-center" style={{ marginRight: forPrint ? '4mm' : '8px' }}>
-                                            <div
-                                                className="rounded-full bg-[#3498db] flex-shrink-0"
-                                                style={{ width: forPrint ? '3mm' : '7px', height: forPrint ? '3mm' : '7px' }}
-                                            />
-                                            {index < education.length - 1 && (
-                                                <div className="w-px flex-1 bg-gray-400" style={{ minHeight: forPrint ? '10mm' : '24px' }} />
-                                            )}
-                                        </div>
-                                        {/* Content */}
-                                        <div className="flex-1 grid grid-cols-2" style={{ gap: forPrint ? '5mm' : '10px' }}>
-                                            <div>
-                                                <div className="font-semibold text-[#333]" style={{ fontSize: forPrint ? '10pt' : '9px' }}>
-                                                    {edu.school || 'Universitas banyak tugas'}
-                                                </div>
-                                                <div className="text-gray-500" style={{ fontSize: forPrint ? '8pt' : '7px' }}>
-                                                    {edu.city || 'Yogyakarta'}
-                                                </div>
-                                                <div className="text-gray-500" style={{ fontSize: forPrint ? '8pt' : '7px' }}>
-                                                    {edu.graduationDate || '2024'}
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div className="font-semibold text-[#333]" style={{ fontSize: forPrint ? '10pt' : '9px' }}>
-                                                    {edu.degree || 'Undergradute'}
-                                                </div>
-                                                <div className="text-gray-500" style={{ fontSize: forPrint ? '8pt' : '7px' }}>
-                                                    {edu.description || 'Gelar sarjana S1 Informatika'}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <p className="text-gray-400 italic" style={{ fontSize: forPrint ? '9pt' : '8px' }}>No education added</p>
-                        )}
-                    </div>
-
-                    {/* Skills */}
-                    <div>
-                        <h2
-                            className="font-bold text-[#333] tracking-wide"
+                        </div>
+                        <div
                             style={{
-                                fontSize: forPrint ? '12pt' : '12px',
-                                borderBottom: '1px solid #d0d0d0ff',
-                                paddingBottom: forPrint ? '2.5mm' : '4px',
-                                marginBottom: forPrint ? '5mm' : '8px',
-                                letterSpacing: '1px'
+                                width: '100%',
+                                height: '1px',
+                                background: `linear-gradient(90deg, ${colors.primary}, transparent)`,
+                                marginBottom: forPrint ? '4mm' : '8px',
                             }}
-                        >
-                            SKILL
-                        </h2>
-                        {skills.length > 0 ? (
-                            settings.viewSkillsAsTags ? (
-                                // Tags view
-                                <div className="flex flex-wrap" style={{ gap: forPrint ? '2mm' : '4px' }}>
-                                    {skills.map((skill) => (
-                                        <span
-                                            key={skill.id}
-                                            className="bg-[#3498db] text-white rounded px-2 py-0.5"
-                                            style={{ fontSize: forPrint ? '8pt' : '7px' }}
-                                        >
-                                            {skill.name || 'SKILL'}
-                                        </span>
-                                    ))}
+                        />
+                        {education.length > 0 ? (
+                            education.slice(0, 2).map((edu) => (
+                                <div key={edu.id} style={{ marginBottom: forPrint ? '4mm' : '8px', position: 'relative', paddingLeft: forPrint ? '4mm' : '10px' }}>
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            left: 0,
+                                            top: forPrint ? '1.5mm' : '4px',
+                                            width: forPrint ? '2mm' : '5px',
+                                            height: forPrint ? '2mm' : '5px',
+                                            borderRadius: '50%',
+                                            background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
+                                        }}
+                                    />
+                                    <div style={{ fontSize: forPrint ? '9pt' : '9px', fontWeight: '600', color: colors.dark }}>{edu.degree || 'Degree'}</div>
+                                    <div style={{ fontSize: forPrint ? '8pt' : '7px', color: colors.primary, fontWeight: '500' }}>{edu.school || 'University'}</div>
+                                    <div style={{ fontSize: forPrint ? '7pt' : '6px', color: colors.textLight }}>{edu.graduationDate || '2024'} • {edu.city || 'City'}</div>
                                 </div>
-                            ) : (
-                                // List view with optional level bars
-                                <div className="grid grid-cols-2" style={{ gap: forPrint ? '3mm 8mm' : '5px 12px' }}>
-                                    {skills.map((skill) => (
-                                        <div key={skill.id}>
-                                            <div className="flex items-center">
-                                                <span
-                                                    className="uppercase tracking-wide text-gray-700"
-                                                    style={{ fontSize: forPrint ? '9pt' : '8px' }}
-                                                >
-                                                    {skill.name || 'SKILL'}
-                                                </span>
-                                            </div>
-                                            {/* Level bar - only show if not hidden */}
-                                            {!settings.hideExperienceLevel && (
-                                                <div>
-                                                    <div
-                                                        className="bg-gray-200 rounded-full overflow-hidden"
-                                                        style={{
-                                                            height: forPrint ? '2mm' : '4px',
-                                                            marginTop: forPrint ? '1.5mm' : '3px',
-                                                            width: '100%'
-                                                        }}
-                                                    >
-                                                        <div
-                                                            className="bg-[#3498db] h-full rounded-full transition-all"
-                                                            style={{ width: `${getLevelPercentage(skill.level)}%` }}
-                                                        />
-                                                    </div>
-                                                    {/* Level label */}
-                                                    <div
-                                                        className="text-gray-500 capitalize"
-                                                        style={{
-                                                            fontSize: forPrint ? '7pt' : '6px',
-                                                            marginTop: forPrint ? '1mm' : '2px'
-                                                        }}
-                                                    >
-                                                        {skill.level || 'beginner'}
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </div>
-                                    ))}
-                                </div>
-                            )
+                            ))
                         ) : (
-                            <p className="text-gray-400 italic" style={{ fontSize: forPrint ? '9pt' : '8px' }}>No skills added</p>
+                            <p style={{ fontSize: forPrint ? '8pt' : '7px', color: colors.textLight, fontStyle: 'italic' }}>No education added</p>
                         )}
                     </div>
                 </div>
@@ -379,30 +414,26 @@ const Preview = forwardRef(function Preview({ forPrint = false }, ref) {
 
             {/* Print Styles */}
             <style>{`
-        @media print {
-          @page {
-            size: 215.9mm 330mm;
-            margin: 0 !important;
-            padding: 0 !important;
-          }
-          * {
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-            color-adjust: exact !important;
-          }
-          html, body {
-            margin: 0 !important;
-            padding: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            overflow: hidden !important;
-          }
-          body > * {
-            margin: 0 !important;
-            padding: 0 !important;
-          }
-        }
-      `}</style>
+                @media print {
+                    @page {
+                        size: 215.9mm 330mm;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                    }
+                    * {
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
+                        color-adjust: exact !important;
+                    }
+                    html, body {
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        width: 100% !important;
+                        height: 100% !important;
+                        overflow: hidden !important;
+                    }
+                }
+            `}</style>
         </div>
     );
 });
