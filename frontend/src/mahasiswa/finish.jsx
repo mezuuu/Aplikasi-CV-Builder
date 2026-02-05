@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import html2pdf from 'html2pdf.js';
 import { useCV } from './CVContext';
-import Preview from './Preview';
+import Preview from './preview';
 
 export default function FinishForm() {
     const { state, prevStep, setStep, updateContact } = useCV();
@@ -124,7 +124,6 @@ export default function FinishForm() {
         <div className="space-y-6">
             {/* Header with celebration */}
             <div className="text-center">
-                <div className="text-5xl mb-3">🎉</div>
                 <h1 className="text-3xl font-bold text-white">
                     Awesome! Your{' '}
                     <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
@@ -132,14 +131,14 @@ export default function FinishForm() {
                     </span>
                 </h1>
                 <p className="text-white/50 mt-2 text-sm">
-                    Review your details and download as PDF ✨
+                    Review your details and download as PDF
                 </p>
             </div>
 
             {/* Summary Stats - Glass Card */}
             <div className="glass rounded-2xl p-6">
                 <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                    <span>📊</span> CV Summary
+                    CV Summary
                 </h2>
                 <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
                     <div className="bg-white/5 p-4 rounded-xl text-center group hover:bg-white/10 transition-all cursor-pointer" onClick={() => setStep(0)}>
@@ -181,7 +180,7 @@ export default function FinishForm() {
             {/* Optional Personal Details - Glass Card */}
             <div className="glass rounded-2xl p-6">
                 <h2 className="text-lg font-semibold text-white mb-2 flex items-center gap-2">
-                    <span>⚙️</span> Optional Details
+                    Optional Details
                 </h2>
                 <p className="text-sm text-white/40 mb-4">
                     These will appear in your CV sidebar

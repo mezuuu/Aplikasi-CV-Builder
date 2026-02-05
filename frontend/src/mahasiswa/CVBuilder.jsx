@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import React from 'react';
 import { CVProvider, useCV } from './CVContext';
 import StepIndicator from './StepIndicator';
-import Preview from './Preview';
+import Preview from './preview';
 import ContactForm from './contact';
 import ExperienceForm from './experience';
 import EducationForm from './education';
@@ -53,7 +53,7 @@ function CVBuilderContent() {
                     {/* Footer - Modern, no branding */}
                     <div className="bg-gradient-to-r from-purple-600/90 to-pink-600/90 backdrop-blur-lg text-white py-4 px-6 border-t border-white/10">
                         <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium opacity-90">Build your career story ✨</span>
+                            <span className="text-sm font-medium opacity-90">Build your career story</span>
                             <div className="flex items-center gap-2 text-xs opacity-70">
                                 <p>Made By <span className="font-bold">Mezuu Dev</span> with Vite + React and Tailwind CSS</p>
                             </div>

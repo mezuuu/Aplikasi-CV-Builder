@@ -32,7 +32,7 @@ export default function SkillForm() {
                     </span>
                 </h1>
                 <p className="text-white/50 mt-2 text-sm">
-                    Add skills that match the job you're applying for ⚡
+                    Add skills that match the job you're applying for
                 </p>
             </div>
 
@@ -112,7 +112,6 @@ export default function SkillForm() {
             {/* Empty state */}
             {skills.length === 0 && (
                 <div className="glass rounded-2xl p-12 text-center">
-                    <div className="text-5xl mb-4">⚡</div>
                     <p className="text-white/50">No skills added yet</p>
                     <p className="text-white/30 text-sm mt-1">Click "Add Skill" to get started</p>
                 </div>

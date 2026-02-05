@@ -23,7 +23,7 @@ export default function AboutForm() {
                     </span>
                 </h1>
                 <p className="text-white/50 mt-2 text-sm">
-                    Write a compelling summary that showcases who you are 📝
+                    Write a compelling summary that showcases who you are
                 </p>
             </div>
 

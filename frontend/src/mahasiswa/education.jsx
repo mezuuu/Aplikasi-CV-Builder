@@ -23,7 +23,7 @@ export default function EducationForm() {
                     </span>
                 </h1>
                 <p className="text-white/50 mt-2 text-sm">
-                    Add your academic background 🎓
+                    Add your academic background
                 </p>
             </div>
 
@@ -32,13 +32,13 @@ export default function EducationForm() {
                 onClick={addEducation}
                 disabled={education.length >= 4}
                 className={`flex items-center gap-2 font-medium transition-colors group ${education.length >= 4
-                        ? 'text-white/30 cursor-not-allowed'
-                        : 'text-purple-400 hover:text-pink-400'
+                    ? 'text-white/30 cursor-not-allowed'
+                    : 'text-purple-400 hover:text-pink-400'
                     }`}
             >
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${education.length >= 4
-                        ? 'bg-white/10'
-                        : 'bg-purple-500/20 group-hover:bg-pink-500/20'
+                    ? 'bg-white/10'
+                    : 'bg-purple-500/20 group-hover:bg-pink-500/20'
                     }`}>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
@@ -135,7 +135,6 @@ export default function EducationForm() {
             {/* Empty state */}
             {education.length === 0 && (
                 <div className="glass rounded-2xl p-12 text-center">
-                    <div className="text-5xl mb-4">🎓</div>
                     <p className="text-white/50">No education added yet</p>
                     <p className="text-white/30 text-sm mt-1">Click "Add Education" to get started</p>
                 </div>
@@ -143,7 +142,7 @@ export default function EducationForm() {
 
             {/* Help Text */}
             <p className="text-sm text-white/30">
-                💡 Include your highest degree first, along with relevant achievements.
+                Include your highest degree first, along with relevant achievements.
             </p>
 
             {/* Navigation */}

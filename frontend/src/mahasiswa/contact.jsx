@@ -53,7 +53,7 @@ export default function ContactForm() {
                     info
                 </h1>
                 <p className="text-white/50 mt-2 text-sm">
-                    Add your details so recruiters can reach you easily ✨
+                    Add your details so recruiters can reach you easily
                 </p>
             </div>
 
